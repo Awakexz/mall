@@ -20,6 +20,14 @@ export default {
     probeType: {
       type: Number,
       default: 0
+    },
+    click: {
+      type: Boolean,
+      default: true
+    },
+    pullUpLoad: {
+      type: Boolean,
+      default: false
     }
   },
   methods: {
@@ -27,18 +35,35 @@ export default {
       this.scroll && this.scroll.scrollTo(x, y, time);
     },
     refresh() {
-      this.scroll && this.scroll.refresh()
+      this.scroll && this.scroll.refresh();
+    },
+    finishPullUp() {
+      this.scroll && this.scroll.finishPullUp();
+    },
+    getScrollY() {
+      return this.scroll.y ? this.scroll.y : 0;
     }
   },
   mounted() {
+    //   创建bscroll对象
     this.scroll = new BScroll(this.$refs.wrapper, {
-      probetype: this.probeType,
-      click: true
+      probeType: this.probeType,
+      pullUpLoad: this.pullUpLoad,
+      click: this.click,
     })
+    // 监听滚动位置
+    if (this.probeType === 2 || this.probeType === 3) {
+      this.scroll.on('scroll', position => {
+        this.$emit('scroll', position)
+      })
+    }
+    // 监听滚动到底部
+    if (this.pullUpLoad) {
+      this.scroll.on('pullingUp', position => {
+        this.$emit('pulling')
+      })
+    }
 
-    this.scroll.on('scroll', (position) => {
-      this.$emit('scroll', position);
-    })
 
   }
 }
