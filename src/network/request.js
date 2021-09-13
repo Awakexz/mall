@@ -6,16 +6,6 @@ export function request(config) {
         timeout: 5000
     })
 
-
-    // 请求拦截
-    // instance.interceptors.request.use(config => {
-    //   console.log(config);
-
-    //   return config;   //返回拦截到的内容
-    // }, error => {
-    //   console.log(error);
-    // })
-
     // 响应拦截
     instance.interceptors.response.use(res => res.data
         , error => {

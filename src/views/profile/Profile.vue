@@ -3,9 +3,9 @@
     <nav-bar class="nav-bar">
       <div slot="center">我的档案</div>
     </nav-bar>
-    <user-info></user-info>
-    <account-info></account-info>
-    <profile-list :list-data="orderList"></profile-list>
+    <user-info @click.native="undoClick"></user-info>
+    <account-info @click.native="undoClick"></account-info>
+    <profile-list :list-data="orderList" @click.native="undoClick"></profile-list>
     <profile-list :list-data="serviceList"></profile-list>
   </div>
 </template>
@@ -36,6 +36,11 @@ export default {
         { icon: 'cart.svg', info: '我的购物车' },
         { icon: 'shopping.svg', info: '下载购物APP' },
       ]
+    }
+  },
+  methods: {
+    undoClick() {
+      this.$toast.show('当前功能尚未开发,请见谅')
     }
   }
 }

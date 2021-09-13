@@ -38,6 +38,7 @@ export default {
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
+  white-space: nowrap;
   padding: 10px 10px;
   color: #fff;
   background-color: rgba(0, 0, 0, 0.7);
