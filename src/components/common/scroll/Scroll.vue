@@ -30,18 +30,20 @@ export default {
       default: false
     }
   },
+  computed: {
+    scrollY() {
+      return this.scroll.y
+    }
+  },
   methods: {
     scrollTo(x, y, time = 500) {
-      this.scroll && this.scroll.scrollTo(x, y, time);
+      this.scroll && this.scroll.scrollTo(x, y, time)
     },
     refresh() {
-      this.scroll && this.scroll.refresh();
+      this.scroll && this.scroll.refresh()
     },
     finishPullUp() {
-      this.scroll && this.scroll.finishPullUp();
-    },
-    getScrollY() {
-      return this.scroll.y ? this.scroll.y : 0;
+      this.scroll && this.scroll.finishPullUp()
     }
   },
   mounted() {
@@ -63,8 +65,6 @@ export default {
         this.$emit('pulling')
       })
     }
-
-
   }
 }
 </script>

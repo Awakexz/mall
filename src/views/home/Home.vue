@@ -23,16 +23,16 @@ import {
   getHomeGoods
 } from 'network/home.js'
 
-import HomeSwiper from "./childComps/HomeSwiper";
-import HomeRecommendView from './childComps/HomeRecommendView.vue';
-import HomeFeatureView from "./childComps/HomeFeatureView.vue";
+import HomeSwiper from "./childComps/HomeSwiper"
+import HomeRecommendView from './childComps/HomeRecommendView.vue'
+import HomeFeatureView from "./childComps/HomeFeatureView.vue"
 
 import NavBar from 'components/common/navbar/NavBar'
-import Scroll from "components/common/scroll/Scroll";
-import TabControl from "components/content/tabControl/TabControl";
+import Scroll from "components/common/scroll/Scroll"
+import TabControl from "components/content/tabControl/TabControl"
 import GoodsList from 'components/content/goods/GoodsList'
-import BackTop from "components/content/backTop/BackTop";
-import { debounce } from "common/utils.js";
+
+import { itemImgListenerMixin, backTopMixin } from 'common/mixin.js'
 
 export default {
   name: 'Home',
@@ -43,8 +43,7 @@ export default {
     HomeFeatureView,
     TabControl,
     GoodsList,
-    Scroll,
-    BackTop
+    Scroll
   },
   data() {
     return {
@@ -57,7 +56,6 @@ export default {
         'sell': { page: 0, list: [] }
       },
       currentType: 'pop',
-      isShowBackTop: false,
       switchTabControl: false,
       taboffsetTop: 0,
       saveY: 0
@@ -65,80 +63,72 @@ export default {
   },
   computed: {
     showGoods() {
-      return this.goods[this.currentType].list;
+      return this.goods[this.currentType].list
     }
   },
+  mixins: [itemImgListenerMixin, backTopMixin],
   activated() {
-    this.$refs.scroll.scrollTo(0, this.saveY, 0)
-
+    this.$refs.scroll.scrollTo(0, this.saveY, 20)
     this.$refs.scroll.refresh()
+    this.$bus.$on('itemImageLoad', this.itemImgListener)
   },
   deactivated() {
-    this.saveY = this.$refs.scroll.getScrollY();
+    this.$bus.$off('itemImageLoad', this.itemImgListener)
+    this.saveY = this.$refs.scroll.scrollY
   },
   created() {
     // 1.请求轮播图和推荐数据
-    this.getHomeMultidata();
+    this.getHomeMultidata()
 
     // 2.请求商品数据
-    this.getHomeGoods('pop');
-    this.getHomeGoods('new');
-    this.getHomeGoods('sell');
-  },
-  mounted() {
-    // 3.监听item中图片加载完成
-    const refresh = debounce(this.$refs.scroll.refresh, 500)
-    this.$bus.$on('itemImageLoad', () => {
-      refresh();
-    })
+    this.getHomeGoods('pop')
+    this.getHomeGoods('new')
+    this.getHomeGoods('sell')
   },
   methods: {
     //   事件监听方法
     tabClick(index) {
       switch (index) {
         case 0:
-          this.currentType = 'pop';
+          this.currentType = 'pop'
           break;
         case 1:
-          this.currentType = 'new';
+          this.currentType = 'new'
           break;
         default:
-          this.currentType = 'sell';
+          this.currentType = 'sell'
           break;
       }
       //   同步两个tab-control
-      this.$refs.tabControl1.currentIndex = index;
-      this.$refs.tabControl2.currentIndex = index;
-    },
-    backClick() {
-      this.$refs.scroll.scrollTo(0, 0);
+      this.$refs.tabControl1.currentIndex = index
+      this.$refs.tabControl2.currentIndex = index
     },
     contentScroll(position) {
-      this.isShowBackTop = position.y <= -this.taboffsetTop;
-      this.switchTabControl = position.y <= -this.taboffsetTop;
+      this.isShowBackTop = position.y <= -this.taboffsetTop
+      this.switchTabControl = position.y <= -this.taboffsetTop
     },
     pullingLoad() {
-      this.getHomeGoods(this.currentType);
+      this.getHomeGoods(this.currentType)
     },
     swiperImageLoad() {
       // $el获取组件中元素
       // 设置tabControl的offsetTop
-      this.taboffsetTop = this.$refs.tabControl2.$el.offsetTop;
+      this.taboffsetTop = this.$refs.tabControl2.$el.offsetTop
     },
     //   网络请求方法
     getHomeMultidata() {
       getHomeMultidata().then(res => {
-        this.banners = res.data.banner.list;
-        this.recommends = res.data.recommend.list;
+        this.banners = res.data.banner.list
+        this.recommends = res.data.recommend.list
       })
     },
     getHomeGoods(type) {
-      const page = this.goods[type].page + 1;
+      const page = this.goods[type].page + 1
       getHomeGoods(type, page).then(res => {
-        this.goods[type].list.push(...res.data.list);
-        this.goods[type].page++;
+        this.goods[type].list.push(...res.data.list)
+        this.goods[type].page++
         // 完成上拉加载
-        this.$refs.scroll.finishPullUp();
+        this.$refs.scroll.finishPullUp()
       })
     }
   }

@@ -21,7 +21,7 @@
 
 <script>
 export default {
-  name: 'DetailParmsInfo',
+  name: 'DetailParamsInfo',
   props: {
     itemParams: {
       type: Object,

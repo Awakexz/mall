@@ -19,11 +19,11 @@ export function request(config) {
     // 响应拦截
     instance.interceptors.response.use(res => res.data
         , error => {
-            console.log(error);
+            console.log(error)
         })
 
 
     //直接return
-    return instance(config);
+    return instance(config)
 }
 

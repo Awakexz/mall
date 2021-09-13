@@ -24,16 +24,16 @@ export default {
   },
   computed: {
     showImage() {
-      return this.goodsItem.image || this.goodsItem.show.img;
+      return this.goodsItem.image || this.goodsItem.show.img
     }
   },
   methods: {
     imageLoad() {
-      this.$bus.$emit('itemImageLoad');
+      this.$bus.$emit('itemImageLoad')
     },
     itemClick() {
       if (this.goodsItem.iid) {
-        this.$router.push('/detail/' + this.goodsItem.iid);
+        this.$router.push('/detail/' + this.goodsItem.iid)
       }
     }
   }
