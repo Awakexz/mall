@@ -7,8 +7,8 @@
 </template>
 
 <script>
-import { mapGetters } from "vuex";
-import CartListItem from "./CartListItem.vue";
+import { mapGetters } from "vuex"
+import CartListItem from "./CartListItem.vue"
 
 
 export default {
@@ -21,7 +21,6 @@ export default {
   components: {
     CartListItem
   }
-
 }
 </script>
 

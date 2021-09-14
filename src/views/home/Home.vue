@@ -7,7 +7,7 @@
       v-show="switchTabControl"></tab-control>
     <scroll class="content" ref="scroll" :probe-type="3" :pull-up-load="true" @scroll="contentScroll"
       @pulling="pullingLoad">
-      <home-swiper :banners="banners" @swiperImageLoad="swiperImageLoad"></home-swiper>
+      <home-swiper :banners="showBanners" @swiperImageLoad="swiperImageLoad"></home-swiper>
       <home-recommend-view :recommends="recommends"></home-recommend-view>
       <home-feature-view></home-feature-view>
       <tab-control :titles="['流行','新款','精选']" @tabClick="tabClick" ref="tabControl2"></tab-control>
@@ -64,6 +64,12 @@ export default {
   computed: {
     showGoods() {
       return this.goods[this.currentType].list
+    },
+    showBanners() {
+      if (this.banners.length === 0) {
+        return []
+      }
+      return this.banners
     }
   },
   mixins: [itemImgListenerMixin, backTopMixin],
@@ -86,7 +92,7 @@ export default {
     this.getHomeGoods('sell')
   },
   methods: {
-    //   事件监听方法
+    //   tab栏切换
     tabClick(index) {
       switch (index) {
         case 0:

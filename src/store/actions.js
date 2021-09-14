@@ -1,4 +1,5 @@
 export default {
+    // 添加商品
     addCart(context, payload) {
         return new Promise((resolve, reject) => {
             let product = context.state.cartList.find(function (item) {
@@ -13,6 +14,7 @@ export default {
             }
         })
     },
+    // 改变商品数量
     changeCount(context, payload) {
         if (payload.step > 0) {
             context.commit('addCount', payload.obj)

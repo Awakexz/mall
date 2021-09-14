@@ -40,6 +40,7 @@ export default {
       this.scroll && this.scroll.scrollTo(x, y, time)
     },
     refresh() {
+      // 刷新scrollHeight
       this.scroll && this.scroll.refresh()
     },
     finishPullUp() {
@@ -59,7 +60,7 @@ export default {
         this.$emit('scroll', position)
       })
     }
-    // 监听滚动到底部
+    // 监听底部上拉加载
     if (this.pullUpLoad) {
       this.scroll.on('pullingUp', position => {
         this.$emit('pulling')

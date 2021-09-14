@@ -28,6 +28,7 @@ export default {
     }
   },
   methods: {
+    //   所有商品详细图片加载完毕发送imageLoad事件
     imgLoad() {
       if (++this.counter === this.imagesLength) {
         this.$emit('imageLoad')
@@ -35,6 +36,7 @@ export default {
     }
   },
   watch: {
+    //   监视详情图片长度
     detailInfo() {
       this.imagesLength = this.detailInfo.detailImage[0].list.length
     }

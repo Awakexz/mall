@@ -14,7 +14,7 @@
 
 <script>
 import CheckButton from 'components/content/checkButton/CheckButton.vue'
-import { mapGetters } from "vuex";
+import { mapGetters } from "vuex"
 
 export default {
   name: 'CarBottomBar',
@@ -22,6 +22,7 @@ export default {
     CheckButton
   },
   computed: {
+    //   映射vuex中getters
     ...mapGetters({
       list: 'cartList',
       listLength: 'cartLength'
@@ -45,6 +46,8 @@ export default {
     checkAllClick() {
       if (this.listLength) {
         this.$store.commit('changeCheckAll', this.isCheckedAll)
+      } else {
+        this.$toast.show('购物车为空')
       }
     },
     calcClick() {
@@ -58,7 +61,10 @@ export default {
 
 <style scoped>
 .cart-bottom-bar {
+  position: fixed;
   display: flex;
+  width: 100%;
+  bottom: 49px;
   height: 40px;
   line-height: 40px;
   box-sizing: border-box;
@@ -82,13 +88,14 @@ export default {
 }
 
 .cart-bottom-bar .total-price {
-  flex: 1;
   margin-left: 15px;
   font-size: 16px;
   color: #666;
 }
 
 .cart-bottom-bar .calculate {
+  position: absolute;
+  right: 0;
   background-color: orangered;
   color: #fff;
   width: 100px;

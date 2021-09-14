@@ -1,3 +1,4 @@
+// 防抖函数
 export function debounce(func, delay = 200) {
     let timer = null
     return function (...args) {
@@ -11,6 +12,7 @@ export function debounce(func, delay = 200) {
     }
 }
 
+// 日期格式化
 export function formatDate(date, fmt) {
     if (/(y+)/.test(fmt)) {
         fmt = fmt.replace(RegExp.$1, (date.getFullYear() + '').substr(4 - RegExp.$1.length))

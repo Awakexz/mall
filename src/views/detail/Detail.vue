@@ -3,7 +3,7 @@
     <!-- $emit传属性时要使用-分割 传函数时可以使用驼峰命名 -->
     <detail-nav-bar @titleClick="titleClick" ref="navBar"></detail-nav-bar>
     <scroll class="content" ref="scroll" :probe-type="3" @scroll="contentScroll">
-      <detail-swiper :top-images="topImages"></detail-swiper>
+      <detail-swiper :top-images="showTopImages"></detail-swiper>
       <detail-base-info :goods="goods"></detail-base-info>
       <detail-shop-info :shop="shop"></detail-shop-info>
       <detail-goods-info :detail-info="detailInfo" @imageLoad="imageLoad"></detail-goods-info>
@@ -47,8 +47,17 @@ export default {
       itemParams: {},
       commentInfo: {},
       recommendInfo: [],
+      //  存放导航栏标题对应位置
       titilePositions: [],
       getTitilePositions: null
+    }
+  },
+  computed: {
+    showTopImages() {
+      if (this.topImages.length === 0) {
+        return []
+      }
+      return this.topImages
     }
   },
   components: {
@@ -91,7 +100,7 @@ export default {
       this.titilePositions.push(this.$refs.comment.$el.offsetTop)
       this.titilePositions.push(this.$refs.recommend.$el.offsetTop)
       this.titilePositions.push(Number.MAX_VALUE)
-    }, 100)
+    }, 300)
 
     getRecommend().then(res => {
       this.recommendInfo = res.data.list
@@ -106,10 +115,12 @@ export default {
       // 详情图片加载完获取title对应的offsetTop
       this.getTitilePositions()
     },
+    // 点击标题滚动到对应位置
     titleClick(index) {
-      this.$refs.scroll.scrollTo(0, -this.titilePositions[index], 500)
+      this.$refs.scroll.scrollTo(0, -this.titilePositions[index])
     },
     contentScroll(position) {
+      // 滚到一个位置 导航栏相应变化
       const positionY = -position.y
       this.isShowBackTop = positionY >= 1000
       let length = this.titilePositions.length
@@ -121,14 +132,14 @@ export default {
       }
     },
     addToCart() {
-      //1.获取购物车需要展示的信息
+      //获取购物车需要展示的信息
       const product = {}
       product.iid = this.iid
       product.image = this.topImages[0]
       product.title = this.goods.title
       product.desc = this.goods.desc
       product.price = this.goods.realPrice
-
+      // 加入购物车操作
       this.$store.dispatch('addCart', product).then(res => {
         this.$toast.show(res)
       })

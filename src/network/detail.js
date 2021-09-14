@@ -1,5 +1,6 @@
 import { request } from './request'
 
+// 详情页信息
 export function getDetail(iid) {
     return request({
         url: '/detail',
@@ -8,9 +9,7 @@ export function getDetail(iid) {
         }
     })
 }
-
-
-
+// 商品信息
 export class Goods {
     constructor(itemInfo, columns, services) {
         this.title = itemInfo.title
@@ -24,6 +23,7 @@ export class Goods {
     }
 }
 
+// 店铺信息
 export class Shop {
     constructor(shopInfo) {
         this.logo = shopInfo.shopLogo
@@ -35,6 +35,7 @@ export class Shop {
     }
 }
 
+// 推荐信息
 export function getRecommend(iid) {
     return request({
         url: '/recommend'

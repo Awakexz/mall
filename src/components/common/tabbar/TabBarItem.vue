@@ -24,6 +24,7 @@ export default {
   },
   methods: {
     itemClick() {
+      // 如果目标不是当前活跃的路由则跳转
       if (this.path != this.$route.path) {
         this.$router.replace(this.path)
       }

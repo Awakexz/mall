@@ -6,15 +6,17 @@ export const itemImgListenerMixin = {
         itemImgListener: null
     },
     mounted() {
-        // 3.监听item中图片加载完成
+        // 监听item中图片加载完成
         this.itemImgListener = () => {
             refresh();
         };
-        const refresh = debounce(this.$refs.scroll.refresh, 100)
+        const refresh = debounce(this.$refs.scroll.refresh)
+        // 事件总线监听图片加载完成并且刷新scrollHeight
         this.$bus.$on('itemImageLoad', this.itemImgListener)
     }
 }
 
+// 回到顶部混入 在主页和详情页使用
 export const backTopMixin = {
     data() {
         return {

@@ -24,7 +24,7 @@ export default {
       this.timer = setTimeout(() => {
         this.isShow = false
         this.message = ''
-      }, duration);
+      }, duration)
     }
   }
 

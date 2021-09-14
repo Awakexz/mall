@@ -6,7 +6,7 @@
     <div class="content">
       <tab-menu :categories="categories" @selectItem="selectItem"></tab-menu>
       <scroll id="tab-content" ref="scroll">
-        <tab-content-category :subcategories="showSubcategory"></tab-content-category>
+        <tab-content-category :subcategory="showSubcategory"></tab-content-category>
       </scroll>
     </div>
   </div>
@@ -19,10 +19,11 @@ import Scroll from "components/common/scroll/Scroll"
 import TabMenu from "./childComps/TabMenu.vue";
 import TabContentCategory from "./childComps/TabContentCategory.vue";
 
+import { itemImgListenerMixin } from "common/mixin.js";
+
 import {
   getCategory,
-  getSubcategory,
-  getCategoryDetail
+  getSubcategory
 } from 'network/category.js'
 
 export default {
@@ -30,7 +31,7 @@ export default {
   data() {
     return {
       categories: [],
-      categoryData: {},
+      subcategories: [],
       currentIndex: -1
     }
   },
@@ -44,65 +45,42 @@ export default {
     showSubcategory() {
       if (this.currentIndex === -1) {
         return {}
-      } else {
-        return this.categoryData[this.currentIndex].subcategories
       }
-    },
-    showCategoryDetail() {
-      if (this.currentIndex === -1) {
-        return []
-      } else {
-        return this.categoryData[this.currentIndex].categoryDetail[this.currentType]
-      }
+      return this.subcategories[this.currentIndex]
     }
   },
+  mixins: [itemImgListenerMixin],
   created() {
-    //   1.请求分类信息
+    //  请求分类信息
     this._getCategory()
   },
-  mounted() {
-
+  activated() {
+    this.$bus.$on('itemImageLoad', this.itemImgListener)
+  },
+  deactivated() {
+    this.$bus.$off('itemImageLoad', this.itemImgListener)
   },
   methods: {
     _getCategory() {
       getCategory().then(res => {
         this.categories = res.data.category.list
+        // 初始化每个类别数据
         for (let i = 0; i < this.categories.length; i++) {
-          this.categoryData[i] = {
-            subcategories: {},
-            categoryDetail: {
-              'pop': [],
-              'new': [],
-              'sell': []
-            }
-          }
+          this.subcategories[i] = {}
         }
-        // 先请求第一个分类的数据
         this._getSubCategory(0)
       })
     },
     _getSubCategory(index) {
-      this.currentIndex = index
+      // 请求当前分类的详情列表信息
       const maitKey = this.categories[index].maitKey
       getSubcategory(maitKey).then(res => {
-        this.categoryData[index].subcategories = res.data
-        this.categoryData = { ...this.categoryData }
-        this._getCategoryDetail('pop')
-        this._getCategoryDetail('sell')
-        this._getCategoryDetail('new')
-      })
-    },
-    _getCategoryDetail(type) {
-      // 1.获取请求的miniWallkey
-      const miniWallkey = this.categories[this.currentIndex].miniWallkey;
-      // 2.发送请求,传入miniWallkey和type
-      getCategoryDetail(miniWallkey, type).then(res => {
-        // 3.将获取的数据保存下来
-        this.categoryData[this.currentIndex].categoryDetail[type] = res
-        this.categoryData = { ...this.categoryData }
+        this.subcategories[index] = res.data
+        this.currentIndex = index
       })
     },
     selectItem(index) {
+      // 切换分类
       this._getSubCategory(index)
     }
   }

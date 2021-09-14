@@ -24,14 +24,17 @@ export default {
   },
   computed: {
     showImage() {
+      // 主页和详情页的不同图片
       return this.goodsItem.image || this.goodsItem.show.img
     }
   },
   methods: {
+    //   通过事件总线发送图片加载完成事件
     imageLoad() {
       this.$bus.$emit('itemImageLoad')
     },
     itemClick() {
+      // 跳转到详情页
       if (this.goodsItem.iid) {
         this.$router.push('/detail/' + this.goodsItem.iid)
       }

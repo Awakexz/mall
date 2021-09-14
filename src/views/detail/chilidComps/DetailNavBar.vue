@@ -27,9 +27,11 @@ export default {
   },
   methods: {
     itemClick(index) {
+      // 切换导航栏状态
       this.currentIndex = index
       this.$emit('titleClick', index)
     },
+    // 返回首页
     backClick() {
       this.$router.back()
     }

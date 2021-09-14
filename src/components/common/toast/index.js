@@ -3,6 +3,8 @@ import Vue from "vue"
 
 const obj = {}
 
+// 封装toast
+
 obj.install = function () {
     // 1.创建组件构造器
     const toastConstructor = Vue.extend(Toast)
@@ -15,7 +17,7 @@ obj.install = function () {
 
     // toast.$el对应这个div
     document.body.appendChild(toast.$el)
-    Vue.prototype.$toast = toast;
+    Vue.prototype.$toast = toast
 
 }
 

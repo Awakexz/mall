@@ -56,8 +56,6 @@ export default {
       this.$store.commit('changeChecked', this.itemInfo)
     }
   }
-
-
 }
 </script>
 

@@ -24,9 +24,10 @@ export default {
     }
   },
   methods: {
+    //   改变tab栏状态
     itemClick(index) {
-      this.currentIndex = index;
-      this.$emit('tabClick', index);
+      this.currentIndex = index
+      this.$emit('tabClick', index)
     }
   }
 }
