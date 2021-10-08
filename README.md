@@ -27,18 +27,18 @@ npm run build
 ## 效果预览
 
 #### 主页
-![image](https://github.com/Awakexz/mall/blob/main/preImg/mall_01.png)
+![image](preImg/mall_01.png)
  
-![image](https://github.com/Awakexz/mall/blob/main/preImg/mall_02.png)
+![image](preImg/mall_02.png)
 
 #### 详情页
-![image](https://github.com/Awakexz/mall/blob/main/preImg/mall_03.png)
+![image](preImg/mall_03.png)
 
 #### 分类页(基本展示)
-![image](https://github.com/Awakexz/mall/blob/main/preImg/mall_04.png)
+![image](preImg/mall_04.png)
 
 #### 购物车
-![image](https://github.com/Awakexz/mall/blob/main/preImg/mall_05.png)
+![image](preImg/mall_05.png)
 
 #### 我的档案(暂未实现登录注册)
-![image](https://github.com/Awakexz/mall/blob/main/preImg/mall_06.png)
+![image](preImg/mall_06.png)
