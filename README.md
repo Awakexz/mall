@@ -7,7 +7,7 @@
 
 #### 注意
 
-该页面属于SPA页面,基于vue,vuex,vue-router,better-scroll等完成,数据来自后台的接口,目前尚未实现登录注册等实际功能
+该页面属于SPA页面,基于vue,vuex,vue-router,better-scroll,fastclick等完成,数据来自后台的接口,目前尚未实现登录注册等实际功能
 
 ## 运行步骤
 

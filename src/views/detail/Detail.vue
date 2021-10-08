@@ -1,6 +1,6 @@
 <template>
   <div id="detail">
-    <!-- $emit传属性时要使用-分割 传函数时可以使用驼峰命名 -->
+    <!-- props传属性时要使用-分割 $emit传函数时可以使用驼峰命名 -->
     <detail-nav-bar @titleClick="titleClick" ref="navBar"></detail-nav-bar>
     <scroll class="content" ref="scroll" :probe-type="3" @scroll="contentScroll">
       <detail-swiper :top-images="showTopImages"></detail-swiper>
@@ -100,7 +100,7 @@ export default {
       this.titilePositions.push(this.$refs.comment.$el.offsetTop)
       this.titilePositions.push(this.$refs.recommend.$el.offsetTop)
       this.titilePositions.push(Number.MAX_VALUE)
-    }, 300)
+    })
 
     getRecommend().then(res => {
       this.recommendInfo = res.data.list
@@ -117,7 +117,12 @@ export default {
     },
     // 点击标题滚动到对应位置
     titleClick(index) {
-      this.$refs.scroll.scrollTo(0, -this.titilePositions[index])
+      if (this.titilePositions.length) {
+        this.$refs.scroll.scrollTo(0, -this.titilePositions[index])
+      } else {
+        this.$toast.show('当前导航栏位置信息还未获取完毕，请稍后点击！')
+      }
+
     },
     contentScroll(position) {
       // 滚到一个位置 导航栏相应变化

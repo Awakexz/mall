@@ -27,9 +27,10 @@ export default {
   },
   methods: {
     itemClick(index) {
-      // 切换导航栏状态
+      // 点击导航栏切换
       this.currentIndex = index
       this.$emit('titleClick', index)
+
     },
     // 返回首页
     backClick() {
